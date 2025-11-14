@@ -1,25 +1,26 @@
-from django.http import HttpResponse
+from django.shortcuts import render   # NEW import
 
-# Ayesha - later replace with real HTML template
+# Login page (Ayesha)
 def login_view(request):
-    return HttpResponse("Login page placeholder (Ayesha will design this).")
+    # Render the login HTML template instead of plain text
+    return render(request, "booking/login.html")
 
-# Ronnel - later replace with real HTML template
+# Browse movies / showtimes (Ronnel)
 def movies_view(request):
-    return HttpResponse("Movies / showtimes page placeholder (Ronnel).")
+    return render(request, "booking/movies.html")
 
-# Ronnel - seat selection
+# Seat selection (Ronnel)
 def reserve_view(request):
-    return HttpResponse("Reservation (seat selection) page placeholder (Ronnel).")
+    return render(request, "booking/reserve.html")
 
-# Ayesha - payment form
+# Payment page (Ayesha)
 def payment_view(request):
-    return HttpResponse("Payment page placeholder (Ayesha).")
+    return render(request, "booking/payment.html")
 
-# Ayesha - confirmation/e-ticket
+# Confirmation / e-ticket (Ayesha)
 def confirm_view(request):
-    return HttpResponse("Confirmation / e-ticket page placeholder (Ayesha).")
+    return render(request, "booking/confirm.html")
 
-# Ronnel - admin analytics, visualizations
+# Admin dashboard / analytics (Ronnel)
 def admin_dashboard_view(request):
-    return HttpResponse("Admin dashboard placeholder (for analytics/visuals).")
+    return render(request, "booking/admin_dashboard.html")
