@@ -1,2 +1,2 @@
-# CSCI-112-Absolut-Cinema-
+# CSCI-112-Absolut-Cinema
 Absolut Cinema Booking System
