@@ -288,152 +288,83 @@
         }
     </style>
 </head>
+</head>
 <body>
-    <div class="container">
-        <header>
-            <h1>🎬 Browse Movies</h1>
-            <p class="subtitle">Select a movie to view showtimes and reserve seats</p>
-        </header>
+<div class="container">
 
-        <div class="movie-selection">
-            <div class="selection-label">Select a Movie:</div>
-            <select id="movieSelect">
-                <option value="">Choose a movie...</option>
-                <option value="white-chicks">White Chicks (2004)</option>
-                <option value="movie2">The Dark Knight (2008)</option>
-                <option value="movie3">Inception (2010)</option>
-            </select>
-        </div>
+    <header>
+        <h1>🎬 Browse Movies</h1>
+        <p class="subtitle">Select a movie to view showtimes and reserve seats</p>
+    </header>
 
-        <div class="movie-details" id="movieDetails">
-            <div class="no-selection">
-                👆 Please select a movie from the dropdown above to view details
-            </div>
-        </div>
+    <!-- MOVIE DROPDOWN -->
+    <div class="movie-selection">
+        <div class="selection-label">Select a Movie:</div>
 
-        <div class="movie-details" id="whiteChicksDetails">
-            <div class="movie-header">
-                <div>
-                    <h2 class="movie-title">White Chicks</h2>
-                    <div class="movie-meta">
-                        <div class="meta-item">
-                            <span class="icon">🎭</span>
-                            <span>Comedy</span>
-                        </div>
-                        <div class="meta-item">
-                            <span class="icon">⏱️</span>
-                            <span>109 mins</span>
-                        </div>
-                        <div class="meta-item">
-                            <span class="badge">PG-13</span>
-                        </div>
-                        <div class="meta-item">
-                            <span class="icon">📅</span>
-                            <span>June 23, 2004</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <select id="movieSelect">
+            <option value="">Choose a movie...</option>
 
-            <p class="description">
-                A film about two African-American FBI agent brothers who had to go undercover and impersonate two blonde white women.
-            </p>
-
-            <div class="info-grid">
-                <div class="info-card">
-                    <div class="info-label">Director</div>
-                    <div class="info-value">Keenen Ivory Wayans</div>
-                </div>
-                <div class="info-card">
-                    <div class="info-label">Genre</div>
-                    <div class="info-value">Comedy</div>
-                </div>
-                <div class="info-card">
-                    <div class="info-label">Rating</div>
-                    <div class="info-value">PG-13</div>
-                </div>
-                <div class="info-card">
-                    <div class="info-label">Runtime</div>
-                    <div class="info-value">109 minutes</div>
-                </div>
-            </div>
-
-            <div class="showtimes-section">
-                <h3 class="section-title">
-                    <span class="icon">🎟️</span>
-                    Available Showtimes
-                </h3>
-                <div class="showtimes-grid">
-                    <div class="showtime-card">
-                        <div class="showtime-venue">Cinema 1</div>
-                        <div class="showtime-time">⏰ 6:00 PM</div>
-                        <div class="showtime-date">📅 November 10, 2025</div>
-                        <div class="showtime-price">₱400</div>
-                    </div>
-                    <div class="showtime-card">
-                        <div class="showtime-venue">Cinema 2</div>
-                        <div class="showtime-time">⏰ 3:30 PM</div>
-                        <div class="showtime-date">📅 November 10, 2025</div>
-                        <div class="showtime-price">₱400</div>
-                    </div>
-                    <div class="showtime-card">
-                        <div class="showtime-venue">Cinema 3</div>
-                        <div class="showtime-time">⏰ 12:30 PM</div>
-                        <div class="showtime-date">📅 November 10, 2025</div>
-                        <div class="showtime-price">₱400</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="button-container" id="buttonContainer" style="display: none;">
-            <button class="btn-back" onclick="goBack()">← Back to Login</button>
-            <button class="btn-next" id="nextBtn" onclick="goToReservation()">Next: Reserve Seats →</button>
-        </div>
+            {% for movie in movies %}
+            <option value="movie-{{ movie.id }}">{{ movie.title }}</option>
+            {% endfor %}
+        </select>
     </div>
 
-    <script>
-        const movieSelect = document.getElementById('movieSelect');
-        const movieDetails = document.getElementById('movieDetails');
-        const whiteChicksDetails = document.getElementById('whiteChicksDetails');
-        const buttonContainer = document.getElementById('buttonContainer');
+    <!-- DEFAULT MESSAGE -->
+    <div class="movie-details active" id="defaultMessage">
+        <div class="no-selection">👆 Select a movie to see details</div>
+    </div>
 
-        movieSelect.addEventListener('change', function() {
-            const selectedValue = this.value;
+    <!-- MOVIE DETAILS -->
+    {% for movie in movies %}
+    <div class="movie-details" id="movie-{{ movie.id }}">
 
-            // Hide all details
-            movieDetails.classList.remove('active');
-            whiteChicksDetails.classList.remove('active');
-            buttonContainer.style.display = 'none';
+        <h2 class="movie-title">{{ movie.title }}</h2>
+        <p class="description">{{ movie.description }}</p>
 
-            if (selectedValue === '') {
-                movieDetails.classList.add('active');
-            } else if (selectedValue === 'white-chicks') {
-                whiteChicksDetails.classList.add('active');
-                buttonContainer.style.display = 'flex';
-            } else {
-                // For other movies (placeholder)
-                alert('Movie details coming soon! For now, only "White Chicks" is available.');
-                movieSelect.value = '';
-                movieDetails.classList.add('active');
-            }
-        });
+        <h3 class="section-title">🎟️ Available Showtimes</h3>
 
-        function goBack() {
-            alert('Going back to Home page...');
-            // window.location.href = 'home.html';
-        }
+        <div class="showtimes-grid">
+            {% for st in showtimes %}
+                {% if st.movie.id == movie.id %}
+                <div class="showtime-card"
+                    onclick="goToReservation('{{ st.id }}')">
+                    <div class="showtime-venue">{{ st.venue }}</div>
+                    <div class="showtime-time">{{ st.time }}</div>
+                    <div class="showtime-date">{{ st.date }}</div>
+                    <div class="showtime-price">₱{{ st.price }}</div>
+                </div>
+                {% endif %}
+            {% endfor %}
+        </div>
 
-        function goToReservation() {
-            const selectedMovie = movieSelect.value;
-            if (selectedMovie) {
-                alert('Proceeding to seat reservation for White Chicks...');
-                // window.location.href = 'reservation.html?movie=' + selectedMovie;
-            }
-        }
+    </div>
+    {% endfor %}
 
-        // Show default "no selection" message on load
-        movieDetails.classList.add('active');
-    </script>
+</div>
+
+<script>
+function goToReservation(showtimeId) {
+    window.location.href = `/reserve/${showtimeId}/`;
+}
+
+const selectElem = document.getElementById("movieSelect");
+const defaultMessage = document.getElementById("defaultMessage");
+
+selectElem.addEventListener("change", () => {
+    const val = selectElem.value;
+
+    document.querySelectorAll(".movie-details").forEach(div =>
+        div.classList.remove("active")
+    );
+
+    if (val === "") {
+        defaultMessage.classList.add("active");
+    } else {
+        document.getElementById(val).classList.add("active");
+    }
+});
+</script>
+
 </body>
 </html>
