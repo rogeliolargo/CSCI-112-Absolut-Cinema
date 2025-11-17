@@ -1,10 +1,376 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>Absolut Cinema – Seat Reservation</title>
-  </head>
-  <body>
-    <h1>Seat Selection</h1>
-    <p>placeholder</p>
-  </body>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seat Reservation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #fff;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            color: #e94560;
+        }
+
+        .movie-info {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(10px);
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .info-row:last-child {
+            margin-bottom: 0;
+        }
+
+        label {
+            font-size: 1.1em;
+            font-weight: 600;
+        }
+
+        select {
+            padding: 10px 20px;
+            font-size: 1em;
+            border: none;
+            border-radius: 5px;
+            background: #e94560;
+            color: #fff;
+            cursor: pointer;
+            min-width: 200px;
+        }
+
+        select:hover {
+            background: #d63651;
+        }
+
+        .screen {
+            background: linear-gradient(to bottom, #e94560, #d63651);
+            height: 15px;
+            border-radius: 50% 50% 0 0;
+            margin: 30px auto 40px;
+            width: 80%;
+            box-shadow: 0 5px 20px rgba(233, 69, 96, 0.5);
+        }
+
+        .screen-label {
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 0.9em;
+            color: #e94560;
+            font-weight: 600;
+        }
+
+        .seating-area {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+
+        .seat-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 15px;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .seat {
+            aspect-ratio: 1;
+            border: 2px solid #fff;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 1.1em;
+        }
+
+        .seat.available {
+            background: #fff;
+            color: #1a1a2e;
+        }
+
+        .seat.available:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(255, 255, 255, 0.3);
+        }
+
+        .seat.reserved {
+            background: #e94560;
+            color: #fff;
+            cursor: not-allowed;
+            border-color: #e94560;
+        }
+
+        .seat.selected {
+            background: #2ecc71;
+            color: #fff;
+            border-color: #2ecc71;
+            transform: scale(1.05);
+        }
+
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .legend-box {
+            width: 30px;
+            height: 30px;
+            border-radius: 5px;
+            border: 2px solid;
+        }
+
+        .legend-box.available {
+            background: #fff;
+            border-color: #fff;
+        }
+
+        .legend-box.reserved {
+            background: #e94560;
+            border-color: #e94560;
+        }
+
+        .legend-box.selected {
+            background: #2ecc71;
+            border-color: #2ecc71;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        button {
+            padding: 15px 40px;
+            font-size: 1.1em;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-back {
+            background: #6c757d;
+            color: #fff;
+        }
+
+        .btn-back:hover {
+            background: #5a6268;
+        }
+
+        .btn-next {
+            background: #2ecc71;
+            color: #fff;
+        }
+
+        .btn-next:hover {
+            background: #27ae60;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(46, 204, 113, 0.4);
+        }
+
+        .btn-next:disabled {
+            background: #6c757d;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .selection-info {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 1.1em;
+        }
+
+        .selection-info span {
+            color: #2ecc71;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎬 Seat Reservation</h1>
+        </header>
+
+        <div class="movie-info">
+            <div class="info-row">
+                <label>Selected Movie:</label>
+                <span id="movieName">The Dark Knight</span>
+            </div>
+            <div class="info-row">
+                <label>Select Showtime:</label>
+                <select id="showtimeSelect">
+                    <option value="">Choose a time</option>
+                    <option value="12:30-2:00 PM">12:30 - 2:00 PM</option>
+                    <option value="3:30-5:00 PM">3:30 - 5:00 PM</option>
+                    <option value="6:30-8:00 PM">6:30 - 8:00 PM</option>
+                </select>
+            </div>
+            <div class="info-row">
+                <label>Select Venue:</label>
+                <select id="venueSelect">
+                    <option value="">Choose a venue</option>
+                    <option value="Cinema 1">Cinema 1</option>
+                    <option value="Cinema 2">Cinema 2</option>
+                    <option value="Cinema 3">Cinema 3</option>
+                    <option value="Cinema 4">Cinema 4</option>
+                    <option value="Cinema 5">Cinema 5</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-box available"></div>
+                <span>Available</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-box reserved"></div>
+                <span>Reserved</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-box selected"></div>
+                <span>Selected</span>
+            </div>
+        </div>
+
+        <div class="seating-area">
+            <div class="screen-label">SCREEN</div>
+            <div class="screen"></div>
+            
+            <div class="seat-grid" id="seatGrid">
+                <!-- Seats will be generated by JavaScript -->
+            </div>
+        </div>
+
+        <div class="selection-info">
+            Selected Seat: <span id="selectedSeat">None</span>
+        </div>
+
+        <div class="button-container">
+            <button class="btn-back" onclick="goBack()">← Back</button>
+            <button class="btn-next" id="nextBtn" disabled onclick="goToPayment()">Next →</button>
+        </div>
+    </div>
+
+    <script>
+        const totalSeats = 10;
+        const reservedSeats = [2, 5, 7]; // Example reserved seats
+        let selectedSeat = null;
+
+        function initializeSeats() {
+            const seatGrid = document.getElementById('seatGrid');
+            seatGrid.innerHTML = '';
+
+            for (let i = 1; i <= totalSeats; i++) {
+                const seat = document.createElement('div');
+                seat.className = 'seat';
+                seat.textContent = i;
+
+                if (reservedSeats.includes(i)) {
+                    seat.classList.add('reserved');
+                } else {
+                    seat.classList.add('available');
+                    seat.onclick = () => selectSeat(i, seat);
+                }
+
+                seatGrid.appendChild(seat);
+            }
+        }
+
+        function selectSeat(seatNumber, seatElement) {
+            // Remove previous selection
+            document.querySelectorAll('.seat.selected').forEach(s => {
+                s.classList.remove('selected');
+                s.classList.add('available');
+            });
+
+            // Select new seat
+            seatElement.classList.remove('available');
+            seatElement.classList.add('selected');
+            selectedSeat = seatNumber;
+
+            // Update UI
+            document.getElementById('selectedSeat').textContent = `Seat ${seatNumber}`;
+            updateNextButton();
+        }
+
+        function updateNextButton() {
+            const showtime = document.getElementById('showtimeSelect').value;
+            const venue = document.getElementById('venueSelect').value;
+            const nextBtn = document.getElementById('nextBtn');
+
+            if (selectedSeat && showtime && venue) {
+                nextBtn.disabled = false;
+            } else {
+                nextBtn.disabled = true;
+            }
+        }
+
+        document.getElementById('showtimeSelect').addEventListener('change', updateNextButton);
+        document.getElementById('venueSelect').addEventListener('change', updateNextButton);
+
+        function goBack() {
+            alert('Going back to Movie Selection page...');
+            // window.location.href = 'movie-selection.html';
+        }
+
+        function goToPayment() {
+            const showtime = document.getElementById('showtimeSelect').value;
+            const venue = document.getElementById('venueSelect').value;
+            alert(`Proceeding to payment...\nSeat: ${selectedSeat}\nShowtime: ${showtime}\nVenue: ${venue}`);
+            // window.location.href = 'payment.html';
+        }
+
+        // Initialize seats on page load
+        initializeSeats();
+    </script>
+</body>
 </html>
