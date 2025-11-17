@@ -3,7 +3,10 @@ from . import views
 
 urlpatterns = [
     # Ayesha: login page
-    path('', views.login_view, name='login'),
+    path('', views.auth_page, name='auth_page'),   # login + signup page
+    path('signup/', views.signup_view, name='signup'),
+    path('login/', views.login_view, name='login'),
+    path('browse/', views.movies_view, name='browse'),
 
     # Ronnel: movies/showtimes page
     path('movies/', views.movies_view, name='movies'),
