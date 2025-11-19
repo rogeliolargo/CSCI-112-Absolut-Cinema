@@ -1,10 +1,25 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Absolut Cinema – Confirmation</title>
-  </head>
-  <body>
-    <h1>Booking Confirmation / E-ticket</h1>
-    <p>E-ticket and booking summary goes here.</p>
-  </body>
+<head>
+    <meta charset="UTF-8">
+    <title>e-Ticket</title>
+</head>
+<body>
+    <h1>e-Ticket</h1>
+
+    <p><strong>Ticket Reference:</strong> {{ ticket_ref }}</p>
+
+    <h2>{{ showtime.movie.title }}</h2>
+    <p>Cinema: {{ showtime.venue }}</p>
+    <p>Date: {{ showtime.date }} | Time: {{ showtime.time }}</p>
+
+    <h3>Seats</h3>
+    <ul>
+        {% for r in reservations %}
+            <li>{{ r.seat.seat_number }}</li>
+        {% endfor %}
+    </ul>
+
+    <p><strong>Paid via:</strong> {{ masked_account }}</p>
+</body>
 </html>

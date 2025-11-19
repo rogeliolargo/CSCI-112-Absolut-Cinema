@@ -32,3 +32,32 @@ class Reservation(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     seat = models.ForeignKey(Seat, on_delete=models.CASCADE)
     reserved_at = models.DateTimeField(auto_now_add=True)
+
+    # Backend 3 stuff: payment and ticket info -
+    is_paid = models.BooleanField(default=False)
+
+    payment_method = models.CharField(
+        max_length=10,
+        choices=[
+            ("gcash", "GCash"),
+            ("card", "Card"),
+        ],
+        null=True,
+        blank=True,
+    )
+
+    ticket_ref = models.CharField(
+        max_length=20,
+        null=True,
+        blank=True,
+    )
+
+    # only masked value (e.g. "GCash ••••1234"), no real number stored
+    masked_account = models.CharField(
+        max_length=32,
+        null=True,
+        blank=True,
+    )
+
+    def __str__(self):
+        return f"{self.user.username} - {self.seat.seat_number} - {self.ticket_ref or 'UNPAID'}"

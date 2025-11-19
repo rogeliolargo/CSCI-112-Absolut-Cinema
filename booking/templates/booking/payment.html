@@ -1,10 +1,43 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Absolut Cinema – Payment</title>
-  </head>
-  <body>
-    <h1>Payment Page</h1>
-    <p>placeholder</p>
-  </body>
+<head>
+    <meta charset="UTF-8">
+    <title>Payment</title>
+</head>
+<body>
+    <h1>Payment</h1>
+
+    <h2>{{ showtime.movie.title }}</h2>
+    <p>Cinema: {{ showtime.venue }}</p>
+    <p>Date: {{ showtime.date }} | Time: {{ showtime.time }}</p>
+
+    <p>You are paying for {{ reservations|length }} seat(s).</p>
+    <p><strong>Total:</strong> ₱{{ total_amount }}</p>
+
+    <form method="post">
+        {% csrf_token %}
+
+        <p>
+            <label>
+                <input type="radio" name="payment_method" value="gcash" checked>
+                GCash
+            </label>
+            <label>
+                <input type="radio" name="payment_method" value="card">
+                Credit / Debit Card
+            </label>
+        </p>
+
+        <p>
+            <label>
+                Account / Number:
+                <input type="text" name="account_number" required>
+            </label>
+        </p>
+
+        <button type="submit">Pay Now</button>
+    </form>
+</body>
 </html>

@@ -164,26 +164,31 @@
     }
 
     async function reserveSeat() {
-        const response = await fetch("/api/reserve/", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                showtime_id: showtimeId,
-                user_id: userId,
-                seats: selectedSeats
-            })
-        });
+    const response = await fetch("/api/reserve/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            showtime_id: showtimeId,
+            user_id: userId,
+            seats: selectedSeats
+        })
+    });
 
-        const result = await response.json();
+    const result = await response.json();
 
-        if (result.error) {
-            alert(result.error);
-            loadSeats();
-            return;
-        }
-
-        window.location.href = "/payment/";
+    if (result.error) {
+        alert(result.error);
+        // reload seat grid in case something changed
+        loadSeats();
+        return;
     }
+
+    // SUCCESS:
+    // redirect to payment page for THIS showtime
+    window.location.href = `/payment/?showtime_id=${showtimeId}`;
+
+    }
+
 
     loadSeats(); // ← VERY IMPORTANT
 </script>
