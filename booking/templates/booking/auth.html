@@ -1,21 +1,108 @@
 <!DOCTYPE html>
-<html>
-  <head>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Absolut Cinema – Login</title>
-  </head>
-  <body>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-<div style="display:flex; gap:40px">
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #fff;
+            padding: 40px 20px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            max-width: 1000px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 40px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            display: flex;
+            gap: 40px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        h2 {
+            color: #e94560;
+            margin-bottom: 20px;
+            font-size: 2em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            width: 300px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 25px;
+            border-radius: 15px;
+            border-left: 4px solid #e94560;
+        }
+
+        input {
+            padding: 12px 15px;
+            border-radius: 8px;
+            border: 2px solid #e94560;
+            background: #0f1419;
+            color: #fff;
+            font-size: 1em;
+            margin-bottom: 8px; /* tight spacing */
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #2ecc71;
+            box-shadow: 0 0 10px rgba(46, 204, 113, 0.3);
+        }
+
+        button {
+            padding: 12px 20px;
+            background: #2ecc71;
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-size: 1.1em;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background: #27ae60;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(46, 204, 113, 0.4);
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
 
     <!-- SIGN UP FORM -->
     <div>
         <h2>Create an Account</h2>
         <form method="POST" action="{% url 'signup' %}">
             {% csrf_token %}
-            <input type="text" name="name" placeholder="Full Name" required><br>
-            <input type="text" name="contact" placeholder="Contact Number" required><br>
-            <input type="text" name="username" placeholder="Username" required><br>
-            <input type="password" name="password" placeholder="Password" required><br>
+            <input type="text" name="name" placeholder="Full Name" required>
+            <input type="text" name="contact" placeholder="Contact Number" required>
+            <input type="text" name="username" placeholder="Username" required>
+            <input type="password" name="password" placeholder="Password" required>
             <button type="submit">Sign Up</button>
         </form>
     </div>
@@ -25,8 +112,8 @@
         <h2>Login</h2>
         <form method="POST" action="{% url 'login' %}">
             {% csrf_token %}
-            <input type="text" name="username" placeholder="Username" required><br>
-            <input type="password" name="password" placeholder="Password" required><br>
+            <input type="text" name="username" placeholder="Username" required>
+            <input type="password" name="password" placeholder="Password" required>
             <button type="submit">Log In</button>
         </form>
     </div>
