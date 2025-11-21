@@ -38,35 +38,75 @@
             color:#fff;
             font-weight:600;
         }
+        .success-badge {
+            background: rgba(46, 204, 113, 0.2);
+            border: 2px solid #2ecc71;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 1.2em;
+            margin-bottom: 20px;
+        }
+        .btn-home {
+            display: block;
+            width: 200px;
+            margin: 30px auto;
+            padding: 15px;
+            background: #e94560;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .btn-home:hover {
+            background: #d63651;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(233, 69, 96, 0.4);
+        }
     </style>
 </head>
 <body>
 <div class="container">
     <header>
-        <h1>e-Ticket</h1>
+        <h1>🎟️ e-Ticket Confirmed!</h1>
+        
+        <div class="success-badge">
+            <strong>✓ Payment Successful</strong>
+        </div>
+        
         <div class="card">
             <div class="info-row"><strong>Ticket Reference:</strong> <span>{{ ticket_ref }}</span></div>
         </div>
-        <h2>{{ showtime.movie.title }}</h2>
+        
+        <h2>{{ movie.title }}</h2>
     </header>
 
     <div class="card">
-        <div class="info-row"><strong>Cinema:</strong> <span>{{ showtime.venue }}</span></div>
-        <div class="info-row"><strong>Date & Time:</strong> <span>{{ showtime.date }} | {{ showtime.time }}</span></div>
+        <div class="info-row"><strong>Cinema:</strong> <span>{{ venue.name }}</span></div>
+        <div class="info-row"><strong>Location:</strong> <span>{{ venue.address }}, {{ venue.city }}</span></div>
+        <div class="info-row"><strong>Date:</strong> <span>{{ showtime.schedule|date:"F d, Y" }}</span></div>
+        <div class="info-row"><strong>Time:</strong> <span>{{ showtime.schedule|date:"h:i A" }}</span></div>
+        <div class="info-row"><strong>Screen:</strong> <span>{{ showtime.screen_name }}</span></div>
     </div>
 
     <div class="card">
-        <h3>Seats</h3>
+        <h3>Your Seats</h3>
         <ul>
-            {% for r in reservations %}
-                <li>{{ r.seat.seat_number }}</li>
+            {% for seat in booking.seats %}
+                <li>Seat {{ seat }}</li>
             {% endfor %}
         </ul>
     </div>
 
     <div class="card">
-        <div class="info-row"><strong>Paid via:</strong> <span>{{ masked_account }}</span></div>
+        <div class="info-row"><strong>Total Amount:</strong> <span>₱{{ booking.total_price }}</span></div>
+        <div class="info-row"><strong>Payment Method:</strong> <span>{{ payment_method|upper }}</span></div>
+        <div class="info-row"><strong>Account:</strong> <span>{{ masked_account }}</span></div>
     </div>
+
+    <a href="{% url 'movies' %}" class="btn-home">Back to Movies</a>
 </div>
 </body>
 </html>

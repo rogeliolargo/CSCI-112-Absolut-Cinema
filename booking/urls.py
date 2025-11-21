@@ -12,11 +12,11 @@ urlpatterns = [
 
     path("movies/", views.movies_view, name="movies"),
 
-    # seat reservation page
-    path("reserve/<int:showtime_id>/", views.reserve_view, name="reserve"),
+    # seat reservation page - changed to <str:showtime_id> for MongoDB ObjectIds
+    path("reserve/<str:showtime_id>/", views.reserve_view, name="reserve"),
 
-    # APIs
-    path("api/seats/<int:showtime_id>/", views.seat_availability_api),
+    # APIs - also changed to <str:showtime_id> for MongoDB ObjectIds
+    path("api/seats/<str:showtime_id>/", views.seat_availability_api),
     path("api/reserve/", views.reserve_seat_api),
 
     # other pages

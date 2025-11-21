@@ -326,15 +326,17 @@
 
         <div class="showtimes-grid">
             {% for st in showtimes %}
-                {% if st.movie.id == movie.id %}
+                {% if st.movie_id == movie.id %}
                 <div class="showtime-card"
                     onclick="goToReservation('{{ st.id }}')">
-                    <div class="showtime-venue">{{ st.venue }}</div>
-                    <div class="showtime-time">{{ st.time }}</div>
-                    <div class="showtime-date">{{ st.date }}</div>
+                    <div class="showtime-venue">{% if st.venue %}{{ st.venue.name }}{% else %}Theater{% endif %}</div>
+                    <div class="showtime-time">{% if st.schedule %}{{ st.schedule|date:"h:i A" }}{% else %}N/A{% endif %}</div>
+                    <div class="showtime-date">{% if st.schedule %}{{ st.schedule|date:"M d, Y" }}{% else %}N/A{% endif %}</div>
                     <div class="showtime-price">₱{{ st.price }}</div>
                 </div>
                 {% endif %}
+            {% empty %}
+            <p style="text-align: center; color: #bbb; grid-column: 1/-1;">No showtimes available</p>
             {% endfor %}
         </div>
 

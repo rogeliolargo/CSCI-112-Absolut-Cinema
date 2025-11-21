@@ -72,13 +72,13 @@
 <div class="container">
     <header>
         <h1>Payment</h1>
-        <h2>{{ showtime.movie.title }}</h2>
+        <h2>{{ movie.title }}</h2>
     </header>
 
     <div class="card">
-        <div class="info-row"><strong>Cinema:</strong> <span>{{ showtime.venue }}</span></div>
-        <div class="info-row"><strong>Date & Time:</strong> <span>{{ showtime.date }} | {{ showtime.time }}</span></div>
-        <div class="info-row"><strong>Seats:</strong> <span>{{ reservations|length }}</span></div>
+        <div class="info-row"><strong>Cinema:</strong> <span>{{ venue.name }}</span></div>
+        <div class="info-row"><strong>Date & Time:</strong> <span>{{ showtime.schedule|date:"M d, Y" }} | {{ showtime.schedule|date:"h:i A" }}</span></div>
+        <div class="info-row"><strong>Seats:</strong> <span>{{ booking.seats|length }}</span></div>
         <div class="info-row"><strong>Total:</strong> <span>₱{{ total_amount }}</span></div>
     </div>
 
