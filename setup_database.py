@@ -173,7 +173,7 @@ showtimes_data = [
         "movie_id": ObjectId("654321abcdef123456789012"),
         "venue_id": ObjectId("612345abcdef678901234567"),
         "screen_name": "Cinema 2",
-        "schedule": datetime(2025, 11, 10, 18, 0, 0),
+        "schedule": datetime(2025, 12, 10, 18, 0, 0),
         "price": 400,
         "seats": [
             {"seat": f"A{i}", "status": "sold" if i in [5,6,12] else "available"}
@@ -187,7 +187,7 @@ showtimes_data = [
         "movie_id": ObjectId("654321abcdef123456789012"),
         "venue_id": ObjectId("612345abcdef678901234568"),
         "screen_name": "Cinema 1",
-        "schedule": datetime(2025, 11, 10, 21, 0, 0),
+        "schedule": datetime(2025, 12, 10, 21, 0, 0),
         "price": 420,
         "seats": [
             {"seat": f"B{i}", "status": "sold" if i in [3,9] else "available"}
@@ -201,7 +201,7 @@ showtimes_data = [
         "movie_id": ObjectId("654321abcdef123456789012"),
         "venue_id": ObjectId("612345abcdef678901234569"),
         "screen_name": "Cinema 4",
-        "schedule": datetime(2025, 11, 11, 17, 30, 0),
+        "schedule": datetime(2025, 12, 11, 17, 30, 0),
         "price": 450,
         "seats": [
             {"seat": f"C{i}", "status": "sold" if i == 4 else "available"}
@@ -214,7 +214,7 @@ showtimes_data = [
         "movie_id": ObjectId("654321abcdef123456789013"),
         "venue_id": ObjectId("612345abcdef678901234567"),
         "screen_name": "Cinema 3",
-        "schedule": datetime(2025, 11, 12, 16, 0, 0),
+        "schedule": datetime(2025, 12, 12, 16, 0, 0),
         "price": 480,
         "seats": [
             {"seat": f"D{i}", "status": "sold" if i in [2,7] else "available"}
@@ -228,7 +228,7 @@ showtimes_data = [
         "movie_id": ObjectId("654321abcdef123456789013"),
         "venue_id": ObjectId("612345abcdef678901234568"),
         "screen_name": "Cinema 1",
-        "schedule": datetime(2025, 11, 12, 20, 0, 0),
+        "schedule": datetime(2025, 12, 12, 20, 0, 0),
         "price": 500,
         "seats": [
             {"seat": f"E{i}", "status": "sold" if i in [5] else "available"}
@@ -242,7 +242,7 @@ showtimes_data = [
         "movie_id": ObjectId("654321abcdef123456789014"),
         "venue_id": ObjectId("612345abcdef678901234569"),
         "screen_name": "Cinema 5",
-        "schedule": datetime(2025, 11, 13, 18, 30, 0),
+        "schedule": datetime(2025, 12, 13, 18, 30, 0),
         "price": 450,
         "seats": [
             {"seat": f"F{i}", "status": "sold" if i in [8] else "available"}
@@ -256,7 +256,7 @@ showtimes_data = [
         "movie_id": ObjectId("654321abcdef123456789014"),
         "venue_id": ObjectId("612345abcdef678901234568"),
         "screen_name": "Cinema 6",
-        "schedule": datetime(2025, 11, 13, 21, 0, 0),
+        "schedule": datetime(2025, 12, 13, 21, 0, 0),
         "price": 480,
         "seats": [
             {"seat": f"G{i}", "status": "sold" if i in [1,12] else "available"}
