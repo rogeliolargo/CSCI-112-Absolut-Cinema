@@ -67,19 +67,32 @@ movies_data = [
     {
         "_id": ObjectId("654321abcdef123456789012"),
         "title": "White Chicks",
-        "description": "A film about two African-American FBI agent brothers who had to go undercover and impersonate two blonde white women.",
+        "description": "A film about two African-American FBI agent brothers who go undercover as two blonde white women.",
         "genre": "Comedy",
         "runtime_mins": 109,
         "rated": "PG-13",
         "release_date": datetime(2004, 6, 23),
-        "showtimes": [
-            {
-                "venue_id": ObjectId("612345abcdef678901234567"),
-                "schedule": datetime(2025, 11, 10, 18, 0, 0),
-                "price": 400
-            }
-        ],
         "director": "Keenen Ivory Wayans"
+    },
+    {
+        "_id": ObjectId("654321abcdef123456789013"),
+        "title": "Interstellar",
+        "description": "A team of explorers travel through a wormhole in space in an attempt to ensure humanity's survival.",
+        "genre": "Sci-Fi",
+        "runtime_mins": 169,
+        "rated": "PG-13",
+        "release_date": datetime(2014, 11, 7),
+        "director": "Christopher Nolan"
+    },
+    {
+        "_id": ObjectId("654321abcdef123456789014"),
+        "title": "The Dark Knight",
+        "description": "Batman faces the Joker, a criminal mastermind spreading chaos in Gotham City.",
+        "genre": "Action",
+        "runtime_mins": 152,
+        "rated": "PG-13",
+        "release_date": datetime(2008, 7, 18),
+        "director": "Christopher Nolan"
     }
 ]
 
@@ -153,8 +166,8 @@ print("✓ Created admin (admin/admin123) and customer (customer/customer123)\n"
 # ============================================
 print("Creating Showtimes...")
 showtimes_collection = db.showtimes
-
 showtimes_data = [
+    # White Chicks — Showtime 1
     {
         "_id": ObjectId("612345abcdef678901234570"),
         "movie_id": ObjectId("654321abcdef123456789012"),
@@ -163,12 +176,12 @@ showtimes_data = [
         "schedule": datetime(2025, 11, 10, 18, 0, 0),
         "price": 400,
         "seats": [
-            {"seat": "A5", "status": "sold", "booking_id": ObjectId("654321abcdef123456789014")},
-            {"seat": "A6", "status": "sold", "booking_id": ObjectId("654321abcdef123456789014")},
-            {"seat": "A7", "status": "available"},
-            {"seat": "A8", "status": "available"}
+            {"seat": f"A{i}", "status": "sold" if i in [5,6,12] else "available"}
+            for i in range(1,16)
         ]
     },
+
+    # White Chicks — Showtime 2
     {
         "_id": ObjectId("612345abcdef678901234571"),
         "movie_id": ObjectId("654321abcdef123456789012"),
@@ -177,11 +190,12 @@ showtimes_data = [
         "schedule": datetime(2025, 11, 10, 21, 0, 0),
         "price": 420,
         "seats": [
-            {"seat": "B1", "status": "available"},
-            {"seat": "B2", "status": "available"},
-            {"seat": "B3", "status": "available"}
+            {"seat": f"B{i}", "status": "sold" if i in [3,9] else "available"}
+            for i in range(1,16)
         ]
     },
+
+    # White Chicks — Showtime 3
     {
         "_id": ObjectId("612345abcdef678901234572"),
         "movie_id": ObjectId("654321abcdef123456789012"),
@@ -190,12 +204,66 @@ showtimes_data = [
         "schedule": datetime(2025, 11, 11, 17, 30, 0),
         "price": 450,
         "seats": [
-            {"seat": "C1", "status": "available"},
-            {"seat": "C2", "status": "available"},
-            {"seat": "C3", "status": "available"},
-            {"seat": "C4", "status": "sold", "booking_id": ObjectId("654321abcdef123456789015")}
+            {"seat": f"C{i}", "status": "sold" if i == 4 else "available"}
+            for i in range(1,16)
+        ]
+    },
+    # Interstellar — Showtime 1
+    {
+        "_id": ObjectId("612345abcdef678901234573"),
+        "movie_id": ObjectId("654321abcdef123456789013"),
+        "venue_id": ObjectId("612345abcdef678901234567"),
+        "screen_name": "Cinema 3",
+        "schedule": datetime(2025, 11, 12, 16, 0, 0),
+        "price": 480,
+        "seats": [
+            {"seat": f"D{i}", "status": "sold" if i in [2,7] else "available"}
+            for i in range(1,16)
+        ]
+    },
+
+    # Interstellar — Showtime 2
+    {
+        "_id": ObjectId("612345abcdef678901234574"),
+        "movie_id": ObjectId("654321abcdef123456789013"),
+        "venue_id": ObjectId("612345abcdef678901234568"),
+        "screen_name": "Cinema 1",
+        "schedule": datetime(2025, 11, 12, 20, 0, 0),
+        "price": 500,
+        "seats": [
+            {"seat": f"E{i}", "status": "sold" if i in [5] else "available"}
+            for i in range(1,16)
+        ]
+    },
+
+    # Dark Knight — Showtime 1
+    {
+        "_id": ObjectId("612345abcdef678901234575"),
+        "movie_id": ObjectId("654321abcdef123456789014"),
+        "venue_id": ObjectId("612345abcdef678901234569"),
+        "screen_name": "Cinema 5",
+        "schedule": datetime(2025, 11, 13, 18, 30, 0),
+        "price": 450,
+        "seats": [
+            {"seat": f"F{i}", "status": "sold" if i in [8] else "available"}
+            for i in range(1,16)
+        ]
+    },
+
+    # Dark Knight — Showtime 2
+    {
+        "_id": ObjectId("612345abcdef678901234576"),
+        "movie_id": ObjectId("654321abcdef123456789014"),
+        "venue_id": ObjectId("612345abcdef678901234568"),
+        "screen_name": "Cinema 6",
+        "schedule": datetime(2025, 11, 13, 21, 0, 0),
+        "price": 480,
+        "seats": [
+            {"seat": f"G{i}", "status": "sold" if i in [1,12] else "available"}
+            for i in range(1,16)
         ]
     }
+
 ]
 
 showtimes_collection.delete_many({})
@@ -210,26 +278,179 @@ bookings_collection = db.bookings
 
 # Sample booking using your FINAL schema
 bookings_data = [
+    # -------------------------
+    # WHITE CHICKS BOOKINGS
+    # -------------------------
     {
         "_id": ObjectId("654321abcdef123456789014"),
         "user_id": ObjectId("654321abcdef123456789013"),
         "movie_id": ObjectId("654321abcdef123456789012"),
-        "venue_id": ObjectId("612345abcdef678901234567"),
+        "venue_id": ObjectId("612345abcdef678901234567"),  # Cinema 2
         "showtimes": {
-            "schedule": datetime(2025, 11, 10, 18, 0, 0),
+            "schedule": datetime(2025, 11, 10, 18, 0),
             "price": 400
         },
-        "seats": ["A5", "A6"],
-        "total_price": 800,
+        "seats": ["A5", "A6", "A12"],
+        "total_price": 1200,
         "booking_confirmed": True,
         "payment": {
             "payment_method": "gcash",
-            "paid_at": datetime(2025, 11, 10, 15, 20, 0)
+            "paid_at": datetime(2025, 11, 10, 15, 20)
         },
         "ticket": {
-            "issued": datetime(2025, 11, 10, 15, 24, 0),
+            "issued": datetime(2025, 11, 10, 15, 24),
             "status": "active",
             "wallet_sent": True,
+            "email_sent": True
+        }
+    },
+
+    {
+        "_id": ObjectId("654321abcdef123456789015"),
+        "user_id": ObjectId("654321abcdef123456789020"),
+        "movie_id": ObjectId("654321abcdef123456789012"),
+        "venue_id": ObjectId("612345abcdef678901234568"),  # Cinema 1
+        "showtimes": {
+            "schedule": datetime(2025, 11, 10, 21, 0),
+            "price": 420
+        },
+        "seats": ["B3", "B9"],
+        "total_price": 840,
+        "booking_confirmed": True,
+        "payment": {
+            "payment_method": "card",
+            "paid_at": datetime(2025, 11, 10, 19, 45)
+        },
+        "ticket": {
+            "issued": datetime(2025, 11, 10, 19, 46),
+            "status": "active",
+            "wallet_sent": False,
+            "email_sent": True
+        }
+    },
+
+    {
+        "_id": ObjectId("654321abcdef123456789016"),
+        "user_id": ObjectId("654321abcdef123456789021"),
+        "movie_id": ObjectId("654321abcdef123456789012"),
+        "venue_id": ObjectId("612345abcdef678901234569"),  # Cinema 4
+        "showtimes": {
+            "schedule": datetime(2025, 11, 11, 17, 30),
+            "price": 450
+        },
+        "seats": ["C4"],
+        "total_price": 450,
+        "booking_confirmed": True,
+        "payment": {
+            "payment_method": "gcash",
+            "paid_at": datetime(2025, 11, 11, 14, 10)
+        },
+        "ticket": {
+            "issued": datetime(2025, 11, 11, 14, 12),
+            "status": "active",
+            "wallet_sent": True,
+            "email_sent": True
+        }
+    },
+
+    # -------------------------
+    # INTERSTELLAR BOOKINGS
+    # -------------------------
+    {
+        "_id": ObjectId("654321abcdef123456789017"),
+        "user_id": ObjectId("654321abcdef123456789030"),
+        "movie_id": ObjectId("654321abcdef123456789013"),
+        "venue_id": ObjectId("612345abcdef678901234567"),  # Cinema 3
+        "showtimes": {
+            "schedule": datetime(2025, 11, 12, 16, 0),
+            "price": 480
+        },
+        "seats": ["D2", "D7"],
+        "total_price": 960,
+        "booking_confirmed": True,
+        "payment": {
+            "payment_method": "card",
+            "paid_at": datetime(2025, 11, 12, 14, 50)
+        },
+        "ticket": {
+            "issued": datetime(2025, 11, 12, 14, 52),
+            "status": "active",
+            "wallet_sent": True,
+            "email_sent": True
+        }
+    },
+
+    {
+        "_id": ObjectId("654321abcdef123456789018"),
+        "user_id": ObjectId("654321abcdef123456789031"),
+        "movie_id": ObjectId("654321abcdef123456789013"),
+        "venue_id": ObjectId("612345abcdef678901234568"),  # Cinema 1
+        "showtimes": {
+            "schedule": datetime(2025, 11, 12, 20, 0),
+            "price": 500
+        },
+        "seats": ["E5"],
+        "total_price": 500,
+        "booking_confirmed": True,
+        "payment": {
+            "payment_method": "gcash",
+            "paid_at": datetime(2025, 11, 12, 18, 40)
+        },
+        "ticket": {
+            "issued": datetime(2025, 11, 12, 18, 42),
+            "status": "active",
+            "wallet_sent": True,
+            "email_sent": True
+        }
+    },
+
+    # -------------------------
+    # THE DARK KNIGHT BOOKINGS
+    # -------------------------
+    {
+        "_id": ObjectId("654321abcdef123456789019"),
+        "user_id": ObjectId("654321abcdef123456789032"),
+        "movie_id": ObjectId("654321abcdef123456789014"),
+        "venue_id": ObjectId("612345abcdef678901234569"),  # Cinema 5
+        "showtimes": {
+            "schedule": datetime(2025, 11, 13, 18, 30),
+            "price": 450
+        },
+        "seats": ["F8"],
+        "total_price": 450,
+        "booking_confirmed": True,
+        "payment": {
+            "payment_method": "card",
+            "paid_at": datetime(2025, 11, 13, 16, 55)
+        },
+        "ticket": {
+            "issued": datetime(2025, 11, 13, 16, 58),
+            "status": "active",
+            "wallet_sent": True,
+            "email_sent": True
+        }
+    },
+
+    {
+        "_id": ObjectId("654321abcdef123456789020"),
+        "user_id": ObjectId("654321abcdef123456789033"),
+        "movie_id": ObjectId("654321abcdef123456789014"),
+        "venue_id": ObjectId("612345abcdef678901234568"),  # Cinema 6
+        "showtimes": {
+            "schedule": datetime(2025, 11, 13, 21, 0),
+            "price": 480
+        },
+        "seats": ["G1", "G12"],
+        "total_price": 960,
+        "booking_confirmed": True,
+        "payment": {
+            "payment_method": "gcash",
+            "paid_at": datetime(2025, 11, 13, 19, 40)
+        },
+        "ticket": {
+            "issued": datetime(2025, 11, 13, 19, 42),
+            "status": "active",
+            "wallet_sent": False,
             "email_sent": True
         }
     }
