@@ -287,7 +287,7 @@ bookings_data = [
         "movie_id": ObjectId("654321abcdef123456789012"),
         "venue_id": ObjectId("612345abcdef678901234567"),  # Cinema 2
         "showtimes": {
-            "schedule": datetime(2025, 11, 10, 18, 0),
+            "schedule": datetime(2025, 12, 10, 18, 0),   # FIXED DATE
             "price": 400
         },
         "seats": ["A5", "A6", "A12"],
@@ -295,10 +295,10 @@ bookings_data = [
         "booking_confirmed": True,
         "payment": {
             "payment_method": "gcash",
-            "paid_at": datetime(2025, 11, 10, 15, 20)
+            "paid_at": datetime(2025, 11, 10, 15, 20)    # KEEP
         },
         "ticket": {
-            "issued": datetime(2025, 11, 10, 15, 24),
+            "issued": datetime(2025, 11, 10, 15, 24),   # KEEP
             "status": "active",
             "wallet_sent": True,
             "email_sent": True
@@ -311,7 +311,7 @@ bookings_data = [
         "movie_id": ObjectId("654321abcdef123456789012"),
         "venue_id": ObjectId("612345abcdef678901234568"),  # Cinema 1
         "showtimes": {
-            "schedule": datetime(2025, 11, 10, 21, 0),
+            "schedule": datetime(2025, 12, 10, 21, 0),  # FIXED DATE
             "price": 420
         },
         "seats": ["B3", "B9"],
@@ -319,10 +319,10 @@ bookings_data = [
         "booking_confirmed": True,
         "payment": {
             "payment_method": "card",
-            "paid_at": datetime(2025, 11, 10, 19, 45)
+            "paid_at": datetime(2025, 11, 10, 19, 45)    # KEEP
         },
         "ticket": {
-            "issued": datetime(2025, 11, 10, 19, 46),
+            "issued": datetime(2025, 11, 10, 19, 46),    # KEEP
             "status": "active",
             "wallet_sent": False,
             "email_sent": True
@@ -335,7 +335,7 @@ bookings_data = [
         "movie_id": ObjectId("654321abcdef123456789012"),
         "venue_id": ObjectId("612345abcdef678901234569"),  # Cinema 4
         "showtimes": {
-            "schedule": datetime(2025, 11, 11, 17, 30),
+            "schedule": datetime(2025, 12, 11, 17, 30),  # FIXED DATE
             "price": 450
         },
         "seats": ["C4"],
@@ -343,10 +343,10 @@ bookings_data = [
         "booking_confirmed": True,
         "payment": {
             "payment_method": "gcash",
-            "paid_at": datetime(2025, 11, 11, 14, 10)
+            "paid_at": datetime(2025, 11, 11, 14, 10)    # KEEP
         },
         "ticket": {
-            "issued": datetime(2025, 11, 11, 14, 12),
+            "issued": datetime(2025, 11, 11, 14, 12),    # KEEP
             "status": "active",
             "wallet_sent": True,
             "email_sent": True
@@ -362,7 +362,7 @@ bookings_data = [
         "movie_id": ObjectId("654321abcdef123456789013"),
         "venue_id": ObjectId("612345abcdef678901234567"),  # Cinema 3
         "showtimes": {
-            "schedule": datetime(2025, 11, 12, 16, 0),
+            "schedule": datetime(2025, 12, 12, 16, 0),   # FIXED DATE
             "price": 480
         },
         "seats": ["D2", "D7"],
@@ -370,10 +370,10 @@ bookings_data = [
         "booking_confirmed": True,
         "payment": {
             "payment_method": "card",
-            "paid_at": datetime(2025, 11, 12, 14, 50)
+            "paid_at": datetime(2025, 11, 12, 14, 50)    # KEEP
         },
         "ticket": {
-            "issued": datetime(2025, 11, 12, 14, 52),
+            "issued": datetime(2025, 11, 12, 14, 52),    # KEEP
             "status": "active",
             "wallet_sent": True,
             "email_sent": True
@@ -386,7 +386,7 @@ bookings_data = [
         "movie_id": ObjectId("654321abcdef123456789013"),
         "venue_id": ObjectId("612345abcdef678901234568"),  # Cinema 1
         "showtimes": {
-            "schedule": datetime(2025, 11, 12, 20, 0),
+            "schedule": datetime(2025, 12, 12, 20, 0),  # FIXED DATE
             "price": 500
         },
         "seats": ["E5"],
@@ -394,10 +394,10 @@ bookings_data = [
         "booking_confirmed": True,
         "payment": {
             "payment_method": "gcash",
-            "paid_at": datetime(2025, 11, 12, 18, 40)
+            "paid_at": datetime(2025, 11, 12, 18, 40)    # KEEP
         },
         "ticket": {
-            "issued": datetime(2025, 11, 12, 18, 42),
+            "issued": datetime(2025, 11, 12, 18, 42),    # KEEP
             "status": "active",
             "wallet_sent": True,
             "email_sent": True
@@ -413,7 +413,7 @@ bookings_data = [
         "movie_id": ObjectId("654321abcdef123456789014"),
         "venue_id": ObjectId("612345abcdef678901234569"),  # Cinema 5
         "showtimes": {
-            "schedule": datetime(2025, 11, 13, 18, 30),
+            "schedule": datetime(2025, 12, 13, 18, 30),  # FIXED DATE
             "price": 450
         },
         "seats": ["F8"],
@@ -421,10 +421,10 @@ bookings_data = [
         "booking_confirmed": True,
         "payment": {
             "payment_method": "card",
-            "paid_at": datetime(2025, 11, 13, 16, 55)
+            "paid_at": datetime(2025, 11, 13, 16, 55)    # KEEP
         },
         "ticket": {
-            "issued": datetime(2025, 11, 13, 16, 58),
+            "issued": datetime(2025, 11, 13, 16, 58),    # KEEP
             "status": "active",
             "wallet_sent": True,
             "email_sent": True
@@ -437,7 +437,7 @@ bookings_data = [
         "movie_id": ObjectId("654321abcdef123456789014"),
         "venue_id": ObjectId("612345abcdef678901234568"),  # Cinema 6
         "showtimes": {
-            "schedule": datetime(2025, 11, 13, 21, 0),
+            "schedule": datetime(2025, 12, 13, 21, 0),   # FIXED DATE
             "price": 480
         },
         "seats": ["G1", "G12"],
@@ -445,10 +445,10 @@ bookings_data = [
         "booking_confirmed": True,
         "payment": {
             "payment_method": "gcash",
-            "paid_at": datetime(2025, 11, 13, 19, 40)
+            "paid_at": datetime(2025, 11, 13, 19, 40)    # KEEP
         },
         "ticket": {
-            "issued": datetime(2025, 11, 13, 19, 42),
+            "issued": datetime(2025, 11, 13, 19, 42),    # KEEP
             "status": "active",
             "wallet_sent": False,
             "email_sent": True
