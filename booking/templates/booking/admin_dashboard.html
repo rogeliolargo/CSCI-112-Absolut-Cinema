@@ -245,268 +245,163 @@
             </div>
         </div>
     </div>
+<script>
+    let analytics = {};
+    let currentDays = 30;
+    let revenueChart, venueChart, trendChart;
 
-    <script>
-        // Sample data - In production, this would come from your MongoDB queries
-        const sampleData = {
-            movieRevenue: [
-                { movie_title: "White Chicks", total_revenue: 45600, tickets_sold: 114 },
-                { movie_title: "The Dark Knight", total_revenue: 67200, tickets_sold: 168 },
-                { movie_title: "Inception", total_revenue: 52800, tickets_sold: 132 },
-                { movie_title: "Parasite", total_revenue: 38400, tickets_sold: 96 },
-                { movie_title: "Interstellar", total_revenue: 58400, tickets_sold: 146 }
-            ],
-            venueRevenue: [
-                { venue: "Katipunan", city: "Quezon City", total_revenue: 78400, total_tickets: 196 },
-                { venue: "SM North EDSA", city: "Quezon City", total_revenue: 92800, total_tickets: 232 },
-                { venue: "Glorietta", city: "Makati", total_revenue: 86000, total_tickets: 215 }
-            ],
-            dailySales: []
-        };
+    // Load analytics from Django
+    async function loadAnalytics() {
+        const res = await fetch("/dashboard/analytics-data/");;
+        analytics = await res.json();
 
-        // Generate daily sales data for the last 30 days
-        function generateDailySales(days) {
-            const sales = [];
-            const today = new Date();
-            
-            for (let i = days - 1; i >= 0; i--) {
-                const date = new Date(today);
-                date.setDate(date.getDate() - i);
-                const dateStr = date.toISOString().split('T')[0];
-                
-                // Random sales between 5000-15000
-                const dailySales = Math.floor(Math.random() * 10000) + 5000;
-                const ticketsSold = Math.floor(dailySales / 400);
-                
-                sales.push({
-                    _id: dateStr,
-                    daily_sales: dailySales,
-                    tickets_sold: ticketsSold
-                });
+        console.log("Loaded analytics:", analytics);
+
+        // Now properly initialize charts using REAL data
+        initCharts();
+        updateTrendChart(30);
+        updateStats(30);
+    }
+
+    function initCharts() {
+        // Revenue per Movie
+        const revenueCtx = document.getElementById('revenueChart').getContext('2d');
+        revenueChart = new Chart(revenueCtx, {
+            type: 'bar',
+            data: {
+                labels: analytics.movieRevenue.map(m => m._id),
+                datasets: [{
+                    label: 'Revenue (₱)',
+                    data: analytics.movieRevenue.map(m => m.total_revenue),
+                    backgroundColor: 'rgba(233, 69, 96, 0.8)',
+                    borderColor: '#e94560',
+                    borderWidth: 2,
+                    borderRadius: 8
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { labels: { color: '#fff' } },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                const movie = analytics.movieRevenue[context.dataIndex];
+                                return [
+                                    `Revenue: ₱${movie.total_revenue.toLocaleString()}`,
+                                    `Tickets: ${movie.tickets_sold}`
+                                ];
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            color: '#fff',
+                            callback: v => '₱' + v.toLocaleString()
+                        },
+                        grid: { color: 'rgba(255,255,255,0.1)' }
+                    },
+                    x: {
+                        ticks: { color: '#fff' },
+                        grid: { color: 'rgba(255,255,255,0.1)' }
+                    }
+                }
             }
-            
-            return sales;
-        }
+        });
 
-        sampleData.dailySales = generateDailySales(30);
-
-        let currentDays = 30;
-        let revenueChart, venueChart, trendChart;
-
-        // Initialize charts
-        function initCharts() {
-            // Revenue per Movie Chart
-            const revenueCtx = document.getElementById('revenueChart').getContext('2d');
-            revenueChart = new Chart(revenueCtx, {
-                type: 'bar',
-                data: {
-                    labels: sampleData.movieRevenue.map(m => m.movie_title),
-                    datasets: [{
-                        label: 'Revenue (₱)',
-                        data: sampleData.movieRevenue.map(m => m.total_revenue),
-                        backgroundColor: 'rgba(233, 69, 96, 0.8)',
-                        borderColor: '#e94560',
-                        borderWidth: 2,
-                        borderRadius: 8
-                    }]
+        // Revenue per Venue
+        const venueCtx = document.getElementById('venueChart').getContext('2d');
+        venueChart = new Chart(venueCtx, {
+            type: 'bar',
+            data: {
+                labels: analytics.venueRevenue.map(v => v._id),
+                datasets: [{
+                    label: 'Revenue (₱)',
+                    data: analytics.venueRevenue.map(v => v.total_revenue),
+                    backgroundColor: 'rgba(46, 204, 113, 0.8)',
+                    borderColor: '#2ecc71',
+                    borderWidth: 2,
+                    borderRadius: 8
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { labels: { color: '#fff' } }
                 },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            labels: { color: '#fff' }
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            color: '#fff',
+                            callback: v => '₱' + v.toLocaleString()
                         },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    const movie = sampleData.movieRevenue[context.dataIndex];
-                                    return [
-                                        `Revenue: ₱${movie.total_revenue.toLocaleString()}`,
-                                        `Tickets: ${movie.tickets_sold}`
-                                    ];
-                                }
-                            }
-                        }
+                        grid: { color: 'rgba(255,255,255,0.1)' }
                     },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            ticks: {
-                                color: '#fff',
-                                callback: value => '₱' + value.toLocaleString()
-                            },
-                            grid: { color: 'rgba(255, 255, 255, 0.1)' }
-                        },
-                        x: {
-                            ticks: { color: '#fff' },
-                            grid: { color: 'rgba(255, 255, 255, 0.1)' }
-                        }
+                    x: {
+                        ticks: { color: '#fff' },
+                        grid: { color: 'rgba(255,255,255,0.1)' }
                     }
                 }
-            });
-
-            // Revenue per Venue Chart
-            const venueCtx = document.getElementById('venueChart').getContext('2d');
-            venueChart = new Chart(venueCtx, {
-                type: 'bar',
-                data: {
-                    labels: sampleData.venueRevenue.map(v => v.venue),
-                    datasets: [{
-                        label: 'Revenue (₱)',
-                        data: sampleData.venueRevenue.map(v => v.total_revenue),
-                        backgroundColor: 'rgba(46, 204, 113, 0.8)',
-                        borderColor: '#2ecc71',
-                        borderWidth: 2,
-                        borderRadius: 8
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            labels: { color: '#fff' }
-                        },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    const venue = sampleData.venueRevenue[context.dataIndex];
-                                    return [
-                                        `Revenue: ₱${venue.total_revenue.toLocaleString()}`,
-                                        `Tickets: ${venue.total_tickets}`,
-                                        `City: ${venue.city}`
-                                    ];
-                                }
-                            }
-                        }
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            ticks: {
-                                color: '#fff',
-                                callback: value => '₱' + value.toLocaleString()
-                            },
-                            grid: { color: 'rgba(255, 255, 255, 0.1)' }
-                        },
-                        x: {
-                            ticks: { color: '#fff' },
-                            grid: { color: 'rgba(255, 255, 255, 0.1)' }
-                        }
-                    }
-                }
-            });
-
-            // Daily Sales Trend Chart
-            updateTrendChart(30);
-        }
-
-        function updateTrendChart(days) {
-            const filteredData = sampleData.dailySales.slice(-days);
-            
-            if (trendChart) {
-                trendChart.destroy();
             }
+        });
+    }
 
-            const trendCtx = document.getElementById('trendChart').getContext('2d');
-            trendChart = new Chart(trendCtx, {
-                type: 'line',
-                data: {
-                    labels: filteredData.map(d => {
-                        const date = new Date(d._id);
-                        return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-                    }),
-                    datasets: [{
-                        label: 'Daily Sales (₱)',
-                        data: filteredData.map(d => d.daily_sales),
-                        borderColor: '#e94560',
-                        backgroundColor: 'rgba(233, 69, 96, 0.2)',
-                        borderWidth: 3,
-                        fill: true,
-                        tension: 0.4,
-                        pointRadius: 4,
-                        pointBackgroundColor: '#e94560',
-                        pointBorderColor: '#fff',
-                        pointBorderWidth: 2
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            labels: { color: '#fff' }
-                        },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    const sale = filteredData[context.dataIndex];
-                                    return [
-                                        `Sales: ₱${sale.daily_sales.toLocaleString()}`,
-                                        `Tickets: ${sale.tickets_sold}`
-                                    ];
-                                }
-                            }
-                        }
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            ticks: {
-                                color: '#fff',
-                                callback: value => '₱' + value.toLocaleString()
-                            },
-                            grid: { color: 'rgba(255, 255, 255, 0.1)' }
-                        },
-                        x: {
-                            ticks: { 
-                                color: '#fff',
-                                maxRotation: 45,
-                                minRotation: 45
-                            },
-                            grid: { color: 'rgba(255, 255, 255, 0.1)' }
-                        }
-                    }
-                }
-            });
+    function updateTrendChart(days) {
+        const filtered = analytics.dailySales.slice(-days);
 
-            updateStats(days);
-        }
+        if (trendChart) trendChart.destroy();
 
-        function updateStats(days) {
-            const filteredSales = sampleData.dailySales.slice(-days);
-            
-            const totalRevenue = filteredSales.reduce((sum, d) => sum + d.daily_sales, 0);
-            const totalTickets = filteredSales.reduce((sum, d) => sum + d.tickets_sold, 0);
-            const avgPrice = totalTickets > 0 ? Math.round(totalRevenue / totalTickets) : 0;
-            
-            document.getElementById('totalRevenue').textContent = '₱' + totalRevenue.toLocaleString();
-            document.getElementById('ticketsSold').textContent = totalTickets.toLocaleString();
-            document.getElementById('activeMovies').textContent = sampleData.movieRevenue.length;
-            document.getElementById('avgPrice').textContent = '₱' + avgPrice.toLocaleString();
-        }
+        const trendCtx = document.getElementById('trendChart').getContext('2d');
+        trendChart = new Chart(trendCtx, {
+            type: "line",
+            data: {
+                labels: filtered.map(d => d._id),
+                datasets: [{
+                    label: "Daily Sales (₱)",
+                    data: filtered.map(d => d.daily_sales),
+                    borderColor: "#e94560",
+                    backgroundColor: "rgba(233, 69, 96, 0.3)",
+                    borderWidth: 3,
+                    fill: true,
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false
+            }
+        });
 
-        function setDateRange(days) {
-            currentDays = days;
-            
-            // Update button states
-            document.querySelectorAll('.date-range button').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            event.target.classList.add('active');
-            
-            // Update chart
-            updateTrendChart(days);
-        }
+        updateStats(days);
+    }
 
-        function goBack() {
-            alert('Going back to Home page...');
-            // window.location.href = 'home.html';
-        }
+    function updateStats(days) {
+        const filtered = analytics.dailySales.slice(-days);
 
-        // Initialize on page load
-        window.addEventListener('load', initCharts);
-    </script>
+        const totalRevenue = filtered.reduce((a, d) => a + d.daily_sales, 0);
+        const totalTickets = filtered.reduce((a, d) => a + d.tickets_sold, 0);
+
+        document.getElementById("totalRevenue").textContent = `₱${totalRevenue.toLocaleString()}`;
+        document.getElementById("ticketsSold").textContent = totalTickets.toLocaleString();
+        document.getElementById("activeMovies").textContent = analytics.movieRevenue.length;
+        document.getElementById("avgPrice").textContent =
+            totalTickets ? `₱${Math.round(totalRevenue / totalTickets).toLocaleString()}` : "₱0";
+    }
+
+    function goBack() {
+        window.location.href = "/movies/";
+    }
+
+    // ONLY LOAD ANALYTICS ON PAGE LOAD
+    window.addEventListener("load", loadAnalytics);
+</script>
+
+
 </body>
 </html>

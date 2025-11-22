@@ -7,6 +7,7 @@ from django.shortcuts import render, redirect
 urlpatterns = [
     path("", views.auth_page, name="auth_page"),
     path('admin-dashboard/', views.admin_dashboard_view, name='admin_dashboard'),
+    path("dashboard/analytics-data/", views.analytics_data),
     path("login/", views.login_view, name="login"),
     path("signup/", views.signup_view, name="signup"),
 

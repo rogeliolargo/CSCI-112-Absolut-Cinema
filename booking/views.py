@@ -6,7 +6,7 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 import json
-from datetime import datetime
+from datetime import datetime, timedelta
 from bson import ObjectId
 
 import random
@@ -16,6 +16,76 @@ import string
 from .mongo_db import db
 
 # -- helper functions for ticket and masking -- gelo
+
+# for the admin dashboard
+def analytics_data(request):
+    from django.http import JsonResponse
+    from .mongo_db import db 
+
+    # MOVIE REVENUE
+    pipeline_movie = [
+        {"$group": {
+            "_id": "$movie_id",
+            "total_revenue": {"$sum": "$total_price"},
+            "tickets_sold": {"$sum": {"$size": "$seats"}}
+        }},
+        {"$lookup": {
+            "from": "movies",
+            "localField": "_id",
+            "foreignField": "_id",
+            "as": "movie"
+        }},
+        {"$unwind": "$movie"},
+        {"$project": {
+            "_id": "$movie.title",
+            "total_revenue": 1,
+            "tickets_sold": 1
+        }}
+    ]
+
+    movie_revenue = list(db.bookings.aggregate(pipeline_movie))
+
+    # VENUE REVENUE
+    pipeline_venue = [
+        {"$group": {
+            "_id": "$venue_id",
+            "total_revenue": {"$sum": "$total_price"},
+            "total_tickets": {"$sum": {"$size": "$seats"}}
+        }},
+        {"$lookup": {
+            "from": "venues",
+            "localField": "_id",
+            "foreignField": "_id",
+            "as": "venue"
+        }},
+        {"$unwind": "$venue"},
+        {"$project": {
+            "_id": "$venue.name",
+            "total_revenue": 1,
+            "total_tickets": 1,
+            "city": "$venue.city"
+        }}
+    ]
+
+    venue_revenue = list(db.bookings.aggregate(pipeline_venue))
+
+    # DAILY SALES
+    pipeline_daily = [
+        {"$group": {
+            "_id": {"$dateToString": {"format": "%Y-%m-%d", "date": "$payment.paid_at"}},
+            "daily_sales": {"$sum": "$total_price"},
+            "tickets_sold": {"$sum": {"$size": "$seats"}}
+        }},
+        {"$sort": {"_id": 1}}
+    ]
+
+    daily_sales = list(db.bookings.aggregate(pipeline_daily))
+
+    return JsonResponse({
+        "movieRevenue": movie_revenue,
+        "venueRevenue": venue_revenue,
+        "dailySales": daily_sales
+    }, safe=False)
 
 def generate_ticket_ref():
     """
